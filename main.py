@@ -54,7 +54,7 @@ def mult_global_cycle(grammar, dictionary):
                     is_something_changed = True
 
 
-def calc_solution_from_path(graph_path, grammar_path):
+def calc_solution_from_path(graph_path, grammar_path, output_name):
     graph = parse_to_graph_from_path(graph_path)
     grammar = parse_to_grammar_from_path(grammar_path)
     dictionary = create_initial_matrices(graph, grammar)
@@ -62,10 +62,10 @@ def calc_solution_from_path(graph_path, grammar_path):
     for key in dictionary:
         dictionary[key] = sparse.csr_matrix(dictionary[key], dtype=bool)
 
-    # start = time.time()
+    start = time.time() * 1000.0
     mult_global_cycle(grammar, dictionary)
-    # end = time.time()
-    # print('Time for multiplication: ', end - start)
+    end = time.time() * 1000.0
+    print('Time for multiplication: ', round(end - start))
 
     answer = ''
     list_of_keys = []
@@ -81,7 +81,7 @@ def calc_solution_from_path(graph_path, grammar_path):
                 if dictionary[keys][i][j]:
                     answer += ' {} {}'.format(i, j)
         answer += '\n'
-    output_file = open('output.txt', 'w')
+    output_file = open(output_name, 'w')
     output_file.write(answer)
     output_file.close()
     # end = time.time()
@@ -89,11 +89,11 @@ def calc_solution_from_path(graph_path, grammar_path):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 3:
+    if len(sys.argv) == 4:
         # start = time.time()
-        calc_solution_from_path(sys.argv[1], sys.argv[2])
+        calc_solution_from_path(sys.argv[2], sys.argv[1], sys.argv[3])
         # end = time.time()
         # print('Time for full algorithm: ', end - start)
     else:
         print('Incorrect amount of arguments, run script like this: '
-              'python main.py [graph_path] [grammar_path]')
+              'python main.py [grammar_path] [graph_path] [output_file_name]')
