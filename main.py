@@ -62,10 +62,10 @@ def calc_solution_from_path(graph_path, grammar_path, output_name):
     for key in dictionary:
         dictionary[key] = sparse.csr_matrix(dictionary[key], dtype=bool)
 
-    start = time.time() * 1000.0
+    # start = time.time() * 1000.0
     mult_global_cycle(grammar, dictionary)
-    end = time.time() * 1000.0
-    print('Time for multiplication: ', round(end - start))
+    # end = time.time() * 1000.0
+    # print('Time for multiplication: ', round(end - start))
 
     answer = ''
     list_of_keys = []
